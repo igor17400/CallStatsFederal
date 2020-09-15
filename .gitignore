@@ -128,5 +128,5 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-# Add logs folder
-logs/
+## Add virtual environment
+./venv_call_stats
