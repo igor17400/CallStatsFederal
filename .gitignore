@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 ## Add virtual environment
-./venv_call_stats
+venv_call_stats/
