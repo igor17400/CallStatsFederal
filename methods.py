@@ -263,11 +263,11 @@ def genCallParametersDFNewVersion(list_logs):
     return df
 
 
-def getOneFile(alias, timestamp):
+def getOneFile(df, alias, timestamp):
     '''Function to ge one occurence in the dataframe based on the two paramaters that unique
     identify a call. In other words, by filtering the call based on alias and timestamp we can 
     get a unique call'''
-    df_ = df_call_parameters[df_call_parameters['alias'] == alias]
+    df_ = df[df['alias'] == alias]
     df_ = df_[df_['timestamp'] == timestamp]
     
     return df_
@@ -286,3 +286,32 @@ def getAliasArr(df):
         if alias not in alias_arr:
             alias_arr.append(alias)
     return alias_arr
+
+def createFolder(path):
+    try:
+        os.mkdir(path)
+    except OSError:
+        print ("Creation of the directory %s failed" % path)
+
+def createAliasFolders(df_log):
+    import os.path 
+    df = df_log.copy()
+    
+    # detect the current working directory and print it
+    path = os.getcwd()
+    path += '/images/ChartsPerAlias/'
+    folders_names = ['JitterRx', 'JitterTx', 'Latency', 'PacketLossRx', 'PacketLossTx']
+    
+    ## Array with all unique alias from the dataframe
+    alias_arr = getAliasArr(df)
+    for alias in alias_arr:
+        path = os.getcwd()
+        path += '/images/ChartsPerAlias/'
+        path += str(alias)
+        if not os.path.isdir(path):
+            try:
+                createFolder(path)
+                for folder in folders_names:
+                    createFolder(path + '/' + str(folder))
+            except:
+                continue
